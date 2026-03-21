@@ -1,0 +1,7 @@
+project_id      = "your-gcp-project-id"
+region          = "us-central1"
+environment     = "prod"
+app_prefix      = "hc-smb"
+container_image = "us-central1-docker.pkg.dev/your-gcp-project-id/hc-smb-prod-web/hc-smb-prod-web:latest"
+owner_email     = "owner@example.com"
+invoice_email   = "billing@example.com"

@@ -1,1 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HarborCart SMB Commerce Suite</title>
+    <meta
+      name="description"
+      content="Responsive SMB commerce app with catalog, cart, invoicing, inventory, logistics, and compliance dashboards."
+    />
+    <meta name="theme-color" content="#0f172a" />
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #020617;
+        --panel: rgba(15, 23, 42, 0.78);
+        --panel-strong: #0f172a;
+        --panel-soft: rgba(30, 41, 59, 0.72);
+        --line: rgba(148, 163, 184, 0.18);
+        --text: #e2e8f0;
+        --muted: #94a3b8;
+        --brand: #38bdf8;
+        --brand-2: #22c55e;
+        --warn: #f59e0b;
+        --danger: #f87171;
+        --shadow: 0 24px 60px rgba(2, 6, 23, 0.45);
+        --radius: 22px;
+        --radius-sm: 16px;
+        --max: 1240px;
+      }
 
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background:
+          radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 26%),
+          radial-gradient(circle at top right, rgba(34, 197, 94, 0.14), transparent 20%),
+          linear-gradient(180deg, #020617 0%, #0f172a 100%);
+        color: var(--text);
+        min-height: 100vh;
+      }
+      a { color: inherit; }
+      img { max-width: 100%; display: block; }
+      button, input, select, textarea {
+        font: inherit;
+      }
+      .container {
+        width: min(calc(100% - 2rem), var(--max));
+        margin: 0 auto;
+      }
+      .hero {
+        padding: 1.25rem 0 2rem;
+      }
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1rem 0 1.5rem;
+        flex-wrap: wrap;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.85rem;
+      }
+      .brand-badge {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, var(--brand), #818cf8);
+        display: grid;
+        place-items: center;
+        font-weight: 900;
+        color: #020617;
+        box-shadow: var(--shadow);
+      }
+      .nav-links {
+        display: flex;
+        gap: 0.7rem;
+        flex-wrap: wrap;
+      }
+      .nav-links a,
+      .tag,
+      .chip {
+        text-decoration: none;
+        border: 1px solid var(--line);
+        background: rgba(15, 23, 42, 0.55);
+        color: var(--muted);
+        padding: 0.6rem 0.95rem;
+        border-radius: 999px;
+        backdrop-filter: blur(12px);
+      }
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.3fr 0.9fr;
+        gap: 1.5rem;
+      }
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(18px);
+      }
+      .hero-copy {
+        padding: 2rem;
+      }
+      .eyebrow,
+      .section-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--brand);
+        font-size: 0.75rem;
+        font-weight: 800;
+      }
+      h1, h2, h3, h4, p { margin-top: 0; }
+      h1 {
+        font-size: clamp(2.4rem, 4vw, 4.3rem);
+        line-height: 1.03;
+        margin: 0.8rem 0 1rem;
+      }
+      .lead {
+        color: #cbd5e1;
+        font-size: 1.05rem;
+        line-height: 1.75;
+        max-width: 60ch;
+      }
+      .hero-actions,
+      .stack,
+      .feature-grid,
+      .stats,
+      .catalog-grid,
+      .ops-grid,
+      .compliance-grid,
+      .footer-grid {
+        display: grid;
+        gap: 1rem;
+      }
+      .hero-actions {
+        grid-template-columns: repeat(auto-fit, minmax(180px, max-content));
+        margin-top: 1.5rem;
+      }
+      .btn {
+        border: 0;
+        border-radius: 16px;
+        padding: 0.95rem 1.25rem;
+        font-weight: 800;
+        cursor: pointer;
+        transition: transform 180ms ease, opacity 180ms ease, box-shadow 180ms ease;
+      }
+      .btn:hover { transform: translateY(-1px); }
+      .btn-primary {
+        background: linear-gradient(135deg, var(--brand), #818cf8);
+        color: #020617;
+        box-shadow: 0 12px 34px rgba(56, 189, 248, 0.25);
+      }
+      .btn-secondary {
+        background: rgba(15, 23, 42, 0.8);
+        color: var(--text);
+        border: 1px solid var(--line);
+      }
+      .hero-card {
+        padding: 1.5rem;
+        display: grid;
+        gap: 1rem;
+      }
+      .mini-stat {
+        padding: 1rem;
+        border-radius: 18px;
+        background: rgba(30, 41, 59, 0.72);
+        border: 1px solid rgba(148, 163, 184, 0.12);
+      }
+      .mini-stat strong {
+        display: block;
+        font-size: 1.8rem;
+        margin-top: 0.45rem;
+      }
+      main {
+        padding-bottom: 4rem;
+      }
+      section {
+        padding: 1.2rem 0;
+      }
+      .section-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 1rem;
+        margin-bottom: 1.25rem;
+        flex-wrap: wrap;
+      }
+      .stats {
+        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      }
+      .stat-card,
+      .feature-card,
+      .task-card,
+      .compliance-card,
+      .product-card,
+      .cart-panel,
+      .ops-panel,
+      .checklist-panel {
+        padding: 1.2rem;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-sm);
+        box-shadow: var(--shadow);
+      }
+      .stat-value {
+        font-size: 2rem;
+        font-weight: 900;
+        margin-bottom: 0.3rem;
+      }
+      .feature-grid,
+      .ops-grid,
+      .compliance-grid,
+      .footer-grid {
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      }
+      .catalog-layout {
+        display: grid;
+        grid-template-columns: 1.6fr 0.9fr;
+        gap: 1rem;
+      }
+      .catalog-grid {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      }
+      .product-card {
+        display: grid;
+        gap: 0.9rem;
+      }
+      .product-card img {
+        aspect-ratio: 4 / 3;
+        object-fit: cover;
+        border-radius: 16px;
+        border: 1px solid rgba(148, 163, 184, 0.15);
+        background: #0f172a;
+      }
+      .price-row,
+      .inventory-row,
+      .list-row,
+      .cart-row,
+      .inline-meta {
+        display: flex;
+        justify-content: space-between;
+        gap: 0.8rem;
+        align-items: center;
+      }
+      .muted {
+        color: var(--muted);
+      }
+      .inventory {
+        color: var(--brand-2);
+        font-weight: 700;
+      }
+      .badge {
+        display: inline-flex;
+        padding: 0.35rem 0.7rem;
+        border-radius: 999px;
+        font-size: 0.78rem;
+        font-weight: 800;
+        background: rgba(34, 197, 94, 0.14);
+        color: #86efac;
+      }
+      .badge.warn {
+        background: rgba(245, 158, 11, 0.14);
+        color: #fcd34d;
+      }
+      .field,
+      .textarea,
+      .select {
+        width: 100%;
+        border-radius: 14px;
+        border: 1px solid var(--line);
+        background: rgba(15, 23, 42, 0.72);
+        color: var(--text);
+        padding: 0.85rem 0.95rem;
+      }
+      .stack { grid-template-columns: 1fr; }
+      .list {
+        display: grid;
+        gap: 0.75rem;
+      }
+      .list-row {
+        padding: 0.9rem 1rem;
+        border-radius: 16px;
+        background: rgba(30, 41, 59, 0.6);
+        border: 1px solid rgba(148, 163, 184, 0.11);
+      }
+      .bar {
+        height: 10px;
+        border-radius: 999px;
+        background: rgba(148, 163, 184, 0.12);
+        overflow: hidden;
+      }
+      .bar > span {
+        display: block;
+        height: 100%;
+        background: linear-gradient(90deg, var(--brand), var(--brand-2));
+        border-radius: inherit;
+      }
+      footer {
+        padding: 2rem 0 3rem;
+      }
+      .footer-grid .panel { padding: 1.2rem; }
+      .tiny { font-size: 0.9rem; color: var(--muted); }
+      .divider {
+        height: 1px;
+        background: var(--line);
+        margin: 1rem 0;
+      }
+      @media (max-width: 960px) {
+        .hero-grid,
+        .catalog-layout {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media (max-width: 640px) {
+        .container { width: min(calc(100% - 1rem), var(--max)); }
+        .hero-copy,
+        .hero-card,
+        .cart-panel,
+        .ops-panel,
+        .checklist-panel,
+        .stat-card,
+        .feature-card,
+        .task-card,
+        .compliance-card,
+        .product-card { padding: 1rem; }
+        h1 { font-size: 2.2rem; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="hero">
+      <div class="container">
+        <nav class="nav">
+          <div class="brand">
+            <div class="brand-badge">HC</div>
+            <div>
+              <strong>HarborCart SMB Commerce</strong><br />
+              <span class="tiny">Web · Mobile · Tablet · Flutter / Firebase / Cloud Run ready</span>
+            </div>
+          </div>
+          <div class="nav-links">
+            <a href="#catalog">Catalog</a>
+            <a href="#operations">Operations</a>
+            <a href="#delivery">Logistics</a>
+            <a href="#security">Security</a>
+            <a href="#vendors">Vendors</a>
+          </div>
+        </nav>
+        <div class="hero-grid">
+          <article class="panel hero-copy">
+            <div class="eyebrow">SMB app blueprint</div>
+            <h1>Sell 10 visual products, invoice by email, track stock, and orchestrate delivery securely.</h1>
+            <p class="lead">
+              This responsive storefront demonstrates an SMB-ready commerce workflow with catalog browsing, Stripe-oriented cart flows,
+              owner email invoicing, inventory updates, logistics status boards, and compliance mapping to PCI DSS 4.0, NIST CSF,
+              CISA Cyber Essentials, and OWASP guidance.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#catalog">Launch product catalog</a>
+              <a class="btn btn-secondary" href="#blueprint">Review platform blueprint</a>
+            </div>
+            <div class="hero-actions" style="margin-top:1rem; grid-template-columns:repeat(auto-fit,minmax(165px,max-content));">
+              <span class="chip">Owner inbox: <strong>[owner]</strong></span>
+              <span class="chip">Invoice target: <strong>[email]</strong></span>
+              <span class="chip">Payments: <strong>Stripe-ready</strong></span>
+            </div>
+          </article>
+          <aside class="panel hero-card">
+            <div class="mini-stat">
+              <span class="muted">Products loaded</span>
+              <strong id="productCount">10</strong>
+              <span class="tiny">Picture-backed cards with stock visibility.</span>
+            </div>
+            <div class="mini-stat">
+              <span class="muted">Inventory health</span>
+              <strong id="inventoryHealth">93%</strong>
+              <span class="tiny">Auto-calculated from on-hand units.</span>
+            </div>
+            <div class="mini-stat">
+              <span class="muted">Delivery coverage</span>
+              <strong>3 zones</strong>
+              <span class="tiny">Local same-day, metro next-day, nationwide 2-5 days.</span>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section id="blueprint">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <div class="section-label">Architecture by task</div>
+              <h2>Operational blueprint for SMB commerce</h2>
+            </div>
+            <div class="tiny">Categorized by execution task and target vendor stack.</div>
+          </div>
+          <div class="feature-grid">
+            <article class="feature-card">
+              <h3>Customer experience</h3>
+              <p class="muted">Adaptive interface with mobile-first cards, accessible typography, sticky actions, and tablet-friendly grids.</p>
+              <div class="inline-meta"><span class="badge">Flutter UI ready</span><span class="tiny">Reusable design tokens</span></div>
+            </article>
+            <article class="feature-card">
+              <h3>Commerce core</h3>
+              <p class="muted">Catalog, cart, invoice prep, stock decrement, and delivery selection designed for Firebase data models and Stripe checkout.</p>
+              <div class="inline-meta"><span class="badge">Firebase ready</span><span class="tiny">Cart + order schemas</span></div>
+            </article>
+            <article class="feature-card">
+              <h3>Platform delivery</h3>
+              <p class="muted">Static app can ship on Cloud Run behind Cloudflare, versioned via GitHub Actions, and replicated with Terraform.</p>
+              <div class="inline-meta"><span class="badge">Cloud Run ready</span><span class="tiny">Infra as code included</span></div>
+            </article>
+            <article class="feature-card">
+              <h3>Security governance</h3>
+              <p class="muted">Security headers, zero-trust principles, least privilege, logging, audit trails, and control mapping for PCI/NIST/CISA/OWASP.</p>
+              <div class="inline-meta"><span class="badge warn">Compliance mapped</span><span class="tiny">DevSecOps view</span></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="container">
+          <div class="stats">
+            <article class="stat-card"><div class="stat-value">10</div><div>Image products with category tags and stock levels.</div></article>
+            <article class="stat-card"><div class="stat-value">1-click</div><div>Invoice draft generation sent to the owner workflow.</div></article>
+            <article class="stat-card"><div class="stat-value">Stripe</div><div>Payment cart handoff designed for PCI-segmented checkout.</div></article>
+            <article class="stat-card"><div class="stat-value">24/7</div><div>Cloudflare edge shielding and observability posture.</div></article>
+          </div>
+        </div>
+      </section>
+
+      <section id="catalog">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <div class="section-label">Catalog + cart</div>
+              <h2>Ten picture products for an SMB storefront</h2>
+            </div>
+            <div class="tiny">Use these as sample SKUs, hero photography slots, or Flutter seed data.</div>
+          </div>
+          <div class="catalog-layout">
+            <div class="catalog-grid" id="catalogGrid"></div>
+            <aside class="cart-panel">
+              <div class="section-label">Checkout workflow</div>
+              <h3>Stripe-oriented cart + invoice handoff</h3>
+              <div id="cartItems" class="list"></div>
+              <div class="divider"></div>
+              <div class="cart-row"><span class="muted">Subtotal</span><strong id="subtotal">$0.00</strong></div>
+              <div class="cart-row"><span class="muted">Estimated shipping</span><strong id="shipping">$0.00</strong></div>
+              <div class="cart-row"><span class="muted">Total</span><strong id="total">$0.00</strong></div>
+              <div class="divider"></div>
+              <label class="tiny" for="customerEmail">Customer invoice email</label>
+              <input class="field" id="customerEmail" placeholder="customer@example.com" />
+              <label class="tiny" for="deliveryZone" style="margin-top:0.9rem; display:block;">Delivery zone</label>
+              <select class="select" id="deliveryZone">
+                <option value="0">Select delivery zone</option>
+                <option value="14">Local same-day · $14</option>
+                <option value="22">Metro next-day · $22</option>
+                <option value="35">Nationwide 2-5 days · $35</option>
+              </select>
+              <div class="hero-actions" style="margin-top:1rem;">
+                <button class="btn btn-primary" id="invoiceBtn">Send invoice by email</button>
+                <button class="btn btn-secondary" id="stripeBtn">Proceed to Stripe</button>
+              </div>
+              <p class="tiny" id="checkoutMessage">Invoices route to <strong>[owner]</strong> for approval and to <strong>[email]</strong> for the customer-facing send.</p>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section id="operations">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <div class="section-label">Operations console</div>
+              <h2>Inventory, invoicing, and fulfillment controls</h2>
+            </div>
+            <div class="tiny">Illustrative logic is local today and designed to move into Firebase / Cloud Functions.</div>
+          </div>
+          <div class="ops-grid">
+            <article class="ops-panel">
+              <h3>Inventory tracker</h3>
+              <div id="inventoryList" class="list"></div>
+            </article>
+            <article class="ops-panel">
+              <h3>Invoice queue</h3>
+              <div class="list">
+                <div class="list-row"><span>Draft quote · Boutique order</span><span class="badge">Ready</span></div>
+                <div class="list-row"><span>Proforma invoice · Wholesale lead</span><span class="badge warn">Needs review</span></div>
+                <div class="list-row"><span>Automated reminder · Net 15</span><span class="badge">Scheduled</span></div>
+              </div>
+              <div class="divider"></div>
+              <label class="tiny" for="ownerEmail">Owner operations email</label>
+              <input class="field" id="ownerEmail" value="[owner]" />
+              <label class="tiny" for="invoiceEmail" style="margin-top:0.9rem; display:block;">Default invoice recipient</label>
+              <input class="field" id="invoiceEmail" value="[email]" />
+            </article>
+            <article class="ops-panel" id="delivery">
+              <h3>Logistics & delivery board</h3>
+              <div class="list">
+                <div class="list-row"><span>Zone A · Same-day courier</span><span class="badge">On schedule</span></div>
+                <div class="list-row"><span>Zone B · Next-day van route</span><span class="badge">2 stops pending</span></div>
+                <div class="list-row"><span>Zone C · Parcel network</span><span class="badge warn">Weather watch</span></div>
+              </div>
+              <div class="divider"></div>
+              <p class="muted">Recommended delivery data model: order, route zone, carrier, ETA, proof-of-delivery URL, status audit trail, and exception reason.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="vendors">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <div class="section-label">Vendor task map</div>
+              <h2>Naming convention and execution ownership</h2>
+            </div>
+            <div class="tiny">Suggested resource prefix: <strong>hc-smb-{env}-{service}</strong></div>
+          </div>
+          <div class="feature-grid">
+            <article class="task-card">
+              <h3>GitHub</h3>
+              <p class="muted">Source control, issue templates, pull requests, Dependabot, secret scanning, and CI/CD promotion gates.</p>
+              <ul>
+                <li>Repo: <code>hc-smb-commerce-app</code></li>
+                <li>Workflow: <code>deploy-cloud-run.yml</code></li>
+                <li>Branch policy: main / staging / feature/*</li>
+              </ul>
+            </article>
+            <article class="task-card">
+              <h3>Cloudflare</h3>
+              <p class="muted">DNS, WAF, rate limiting, bot management, Turnstile, CDN caching, and edge security headers.</p>
+              <ul>
+                <li>Zone: <code>shop.example.com</code></li>
+                <li>Ruleset prefix: <code>hc-smb-edge-*</code></li>
+                <li>Worker optional for email/webhook mediation</li>
+              </ul>
+            </article>
+            <article class="task-card">
+              <h3>Flutter + Firebase</h3>
+              <p class="muted">Shared presentation layer, Firestore collections, Authentication, Storage, Functions, Analytics, and Crashlytics.</p>
+              <ul>
+                <li>App id: <code>com.harborcart.smb</code></li>
+                <li>Collections: products, inventory, orders, invoices</li>
+                <li>Storage path: <code>products/{sku}/hero.jpg</code></li>
+              </ul>
+            </article>
+            <article class="task-card">
+              <h3>Others</h3>
+              <p class="muted">Stripe for checkout, SendGrid or Mailgun for invoice mail, GCP Cloud Run/Artifact Registry/Secret Manager for runtime.</p>
+              <ul>
+                <li>Service: <code>hc-smb-prod-web</code></li>
+                <li>Secrets: <code>hc-smb-{env}-stripe-*</code></li>
+                <li>Telemetry: Cloud Logging + uptime checks</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="security">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <div class="section-label">Cybersecurity + compliance</div>
+              <h2>Mapped for PCI DSS, NIST CSF, CISA, and OWASP</h2>
+            </div>
+            <div class="tiny">Checkout should tokenize card data in Stripe-hosted pages and keep the app out of card data scope as much as possible.</div>
+          </div>
+          <div class="compliance-grid">
+            <article class="compliance-card">
+              <h3>Identify</h3>
+              <p class="muted">Asset inventory, supplier review, GitHub SBOM tracking, and cloud account separation by environment.</p>
+            </article>
+            <article class="compliance-card">
+              <h3>Protect</h3>
+              <p class="muted">MFA, least privilege IAM, TLS everywhere, AES-256 at rest, CSP/HSTS, patching cadence, and secure secrets rotation.</p>
+            </article>
+            <article class="compliance-card">
+              <h3>Detect</h3>
+              <p class="muted">Cloud Logging, audit trails, Stripe webhook monitoring, WAF analytics, vulnerability scanning, and anomaly baselining.</p>
+            </article>
+            <article class="compliance-card">
+              <h3>Respond</h3>
+              <p class="muted">Incident runbooks, email escalation matrix, revocation workflows, and customer communication templates.</p>
+            </article>
+            <article class="compliance-card">
+              <h3>Recover</h3>
+              <p class="muted">Backups, infrastructure re-provisioning by Terraform, rollback images, and post-incident retrospectives.</p>
+            </article>
+            <article class="compliance-card checklist-panel">
+              <h3>PCI-aligned checkout checklist</h3>
+              <div class="list">
+                <div class="list-row"><span>Use Stripe Checkout / Payment Element</span><span class="badge">Required</span></div>
+                <div class="list-row"><span>Never store PAN/CVV in app logs or Firebase</span><span class="badge">Required</span></div>
+                <div class="list-row"><span>Enable WAF, bot defense, and webhook signature validation</span><span class="badge">Required</span></div>
+                <div class="list-row"><span>Retain access/audit logs per policy</span><span class="badge warn">Policy</span></div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-grid">
+        <article class="panel">
+          <h3>Build outputs included</h3>
+          <p class="muted">Static responsive app, Docker + NGINX packaging for Cloud Run, GitHub Actions deployment workflow, and Terraform repeatable infrastructure.</p>
+        </article>
+        <article class="panel">
+          <h3>Implementation note</h3>
+          <p class="muted">Replace placeholders <strong>[owner]</strong> and <strong>[email]</strong> plus Stripe keys, Cloudflare zone IDs, and Firebase config before production launch.</p>
+        </article>
+      </div>
+    </footer>
+
+    <script>
+      const products = [
+        { id: 'HC-001', name: 'Artisan Coffee Kit', price: 42, stock: 18, category: 'Home', image: 'assets/products/product-01.svg' },
+        { id: 'HC-002', name: 'Botanical Candle Set', price: 34, stock: 9, category: 'Lifestyle', image: 'assets/products/product-02.svg' },
+        { id: 'HC-003', name: 'Travel Brew Bottle', price: 27, stock: 25, category: 'Drinkware', image: 'assets/products/product-03.svg' },
+        { id: 'HC-004', name: 'Linen Market Tote', price: 29, stock: 11, category: 'Accessories', image: 'assets/products/product-04.svg' },
+        { id: 'HC-005', name: 'Ceramic Pour Set', price: 58, stock: 7, category: 'Kitchen', image: 'assets/products/product-05.svg' },
+        { id: 'HC-006', name: 'Desk Focus Lamp', price: 76, stock: 14, category: 'Office', image: 'assets/products/product-06.svg' },
+        { id: 'HC-007', name: 'Wellness Tea Pairing', price: 24, stock: 31, category: 'Tea', image: 'assets/products/product-07.svg' },
+        { id: 'HC-008', name: 'Studio Notebook Duo', price: 19, stock: 42, category: 'Stationery', image: 'assets/products/product-08.svg' },
+        { id: 'HC-009', name: 'Scented Reed Diffuser', price: 31, stock: 13, category: 'Home', image: 'assets/products/product-09.svg' },
+        { id: 'HC-010', name: 'Compact Speaker Dock', price: 89, stock: 6, category: 'Tech', image: 'assets/products/product-10.svg' },
+      ];
+
+      const cart = new Map();
+      const catalogGrid = document.getElementById('catalogGrid');
+      const cartItems = document.getElementById('cartItems');
+      const inventoryList = document.getElementById('inventoryList');
+      const subtotalNode = document.getElementById('subtotal');
+      const shippingNode = document.getElementById('shipping');
+      const totalNode = document.getElementById('total');
+      const inventoryHealthNode = document.getElementById('inventoryHealth');
+      const checkoutMessage = document.getElementById('checkoutMessage');
+      const deliveryZone = document.getElementById('deliveryZone');
+
+      function currency(value) {
+        return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
+      }
+
+      function renderCatalog() {
+        catalogGrid.innerHTML = products.map((product) => `
+          <article class="product-card">
+            <img src="${product.image}" alt="${product.name}" />
+            <div class="inline-meta">
+              <span class="badge">${product.category}</span>
+              <span class="tiny">${product.id}</span>
+            </div>
+            <div>
+              <h3>${product.name}</h3>
+              <p class="muted">Visual SKU designed for web, mobile, tablet, and future Flutter card components.</p>
+            </div>
+            <div class="price-row">
+              <strong>${currency(product.price)}</strong>
+              <span class="inventory">${product.stock} in stock</span>
+            </div>
+            <button class="btn btn-primary" data-add="${product.id}">Add to cart</button>
+          </article>
+        `).join('');
+      }
+
+      function renderInventory() {
+        const totalStock = products.reduce((sum, p) => sum + p.stock, 0);
+        const maxStock = products.length * 45;
+        inventoryHealthNode.textContent = `${Math.round((totalStock / maxStock) * 100)}%`;
+        inventoryList.innerHTML = products.map((product) => {
+          const ratio = Math.min(100, Math.round((product.stock / 45) * 100));
+          return `
+            <div class="list-row">
+              <div class="inventory-row">
+                <strong>${product.name}</strong>
+                <span class="${product.stock <= 8 ? 'badge warn' : 'badge'}">${product.stock} units</span>
+              </div>
+              <div class="bar" aria-hidden="true"><span style="width:${ratio}%"></span></div>
+              <div class="tiny" style="margin-top:0.45rem;">SKU ${product.id} · reorder ${product.stock <= 8 ? 'recommended now' : 'not required yet'}</div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      function renderCart() {
+        const selected = [...cart.values()];
+        if (!selected.length) {
+          cartItems.innerHTML = '<div class="list-row"><span class="muted">No products selected yet.</span></div>';
+        } else {
+          cartItems.innerHTML = selected.map((item) => `
+            <div class="list-row">
+              <div class="cart-row">
+                <strong>${item.name}</strong>
+                <button class="btn btn-secondary" data-remove="${item.id}" style="padding:0.4rem 0.7rem;">Remove</button>
+              </div>
+              <div class="cart-row tiny">
+                <span>${item.quantity} × ${currency(item.price)}</span>
+                <strong>${currency(item.quantity * item.price)}</strong>
+              </div>
+            </div>
+          `).join('');
+        }
+        const subtotal = selected.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        const shipping = Number(deliveryZone.value || 0);
+        subtotalNode.textContent = currency(subtotal);
+        shippingNode.textContent = currency(shipping);
+        totalNode.textContent = currency(subtotal + shipping);
+      }
+
+      document.addEventListener('click', (event) => {
+        const addId = event.target.getAttribute('data-add');
+        const removeId = event.target.getAttribute('data-remove');
+        if (addId) {
+          const product = products.find((item) => item.id === addId);
+          const entry = cart.get(addId) || { ...product, quantity: 0 };
+          entry.quantity += 1;
+          cart.set(addId, entry);
+          renderCart();
+        }
+        if (removeId) {
+          cart.delete(removeId);
+          renderCart();
+        }
+      });
+
+      deliveryZone.addEventListener('change', renderCart);
+
+      document.getElementById('invoiceBtn').addEventListener('click', () => {
+        const email = document.getElementById('customerEmail').value || '[email]';
+        const owner = document.getElementById('ownerEmail').value || '[owner]';
+        const total = totalNode.textContent;
+        checkoutMessage.innerHTML = `Invoice draft prepared for <strong>${email}</strong>. Approval routed to <strong>${owner}</strong> for send authorization. Estimated charge: <strong>${total}</strong>.`;
+      });
+
+      document.getElementById('stripeBtn').addEventListener('click', () => {
+        checkoutMessage.innerHTML = 'Stripe checkout handoff placeholder: create Checkout Session in Cloud Run / Firebase Functions, validate webhook signatures, and finalize fulfillment after payment success.';
+      });
+
+      renderCatalog();
+      renderInventory();
+      renderCart();
+    </script>
+  </body>
+</html>

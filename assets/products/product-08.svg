@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" role="img" aria-label="Notebook Duo">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#60a5fa" />
+      <stop offset="100%" stop-color="#2563eb" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" rx="48" fill="#0f172a"/>
+  <rect x="60" y="60" width="1080" height="780" rx="40" fill="url(#g)" opacity="0.92"/>
+  <circle cx="940" cy="220" r="120" fill="#ffffff" opacity="0.14"/>
+  <circle cx="260" cy="700" r="160" fill="#ffffff" opacity="0.12"/>
+  <rect x="180" y="210" width="420" height="340" rx="36" fill="#ffffff" opacity="0.18"/>
+  <rect x="650" y="280" width="240" height="240" rx="36" fill="#ffffff" opacity="0.24"/>
+  <text x="180" y="655" font-family="Inter,Arial,sans-serif" font-size="74" font-weight="800" fill="#ffffff">Notebook Duo</text>
+  <text x="180" y="735" font-family="Inter,Arial,sans-serif" font-size="36" fill="#e2e8f0">HarborCart visual product 08</text>
+</svg>
