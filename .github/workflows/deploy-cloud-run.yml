@@ -16,15 +16,54 @@ jobs:
       REGION: us-central1
       SERVICE_NAME: hc-smb-prod-web
       REPOSITORY: hc-smb-web
+      WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+      SERVICE_ACCOUNT_EMAIL: ${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}
+      GCP_CREDENTIALS_JSON: ${{ secrets.GCP_CREDENTIALS_JSON }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Authenticate to Google Cloud
+      - name: Validate Google Cloud auth configuration
+        run: |
+          if [ -z "${PROJECT_ID}" ]; then
+            echo "GCP_PROJECT_ID secret is required for deploys." >&2
+            exit 1
+          fi
+
+          has_wif=false
+          has_json=false
+
+          if [ -n "${WORKLOAD_IDENTITY_PROVIDER}" ] && [ -n "${SERVICE_ACCOUNT_EMAIL}" ]; then
+            has_wif=true
+          fi
+
+          if [ -n "${GCP_CREDENTIALS_JSON}" ]; then
+            has_json=true
+          fi
+
+          if [ "${has_wif}" = true ] && [ "${has_json}" = true ]; then
+            echo "Configure either Workload Identity Federation secrets or GCP_CREDENTIALS_JSON, not both." >&2
+            exit 1
+          fi
+
+          if [ "${has_wif}" = false ] && [ "${has_json}" = false ]; then
+            echo "Missing Google Cloud auth secrets. Set GCP_WORKLOAD_IDENTITY_PROVIDER with GCP_SERVICE_ACCOUNT_EMAIL, or set GCP_CREDENTIALS_JSON." >&2
+            echo "GitHub does not expose secrets to workflows triggered from forks or Dependabot by default." >&2
+            exit 1
+          fi
+
+      - name: Authenticate to Google Cloud via Workload Identity Federation
+        if: ${{ env.WORKLOAD_IDENTITY_PROVIDER != '' && env.SERVICE_ACCOUNT_EMAIL != '' && env.GCP_CREDENTIALS_JSON == '' }}
         uses: google-github-actions/auth@v2
         with:
-          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}
+          workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ env.SERVICE_ACCOUNT_EMAIL }}
+
+      - name: Authenticate to Google Cloud via service account key
+        if: ${{ env.GCP_CREDENTIALS_JSON != '' && env.WORKLOAD_IDENTITY_PROVIDER == '' && env.SERVICE_ACCOUNT_EMAIL == '' }}
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ env.GCP_CREDENTIALS_JSON }}
 
       - name: Set up gcloud
         uses: google-github-actions/setup-gcloud@v2
