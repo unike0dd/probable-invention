@@ -19,6 +19,15 @@ Responsive SMB storefront and operations dashboard with:
 - `.github/workflows/deploy-cloud-run.yml` — GitHub Actions deployment pipeline.
 - `terraform/` — repeatable GCP infrastructure stack.
 
+## GitHub Actions deploy secrets
+
+The Cloud Run deploy workflow requires `GCP_PROJECT_ID` and exactly one authentication method:
+
+- **Workload Identity Federation**: set `GCP_WORKLOAD_IDENTITY_PROVIDER` and `GCP_SERVICE_ACCOUNT_EMAIL`.
+- **Service account key JSON**: set `GCP_CREDENTIALS_JSON`.
+
+Do not set both auth methods at the same time. GitHub also does not pass repository secrets to workflows triggered from forks or Dependabot by default, so those runs must be configured separately or skipped.
+
 ## Recommended next integration steps
 
 ### Flutter
