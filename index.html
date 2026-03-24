@@ -314,6 +314,19 @@
         background: var(--line);
         margin: 1rem 0;
       }
+      .about-intro {
+        text-align: center;
+        max-width: 780px;
+        margin: 0 auto 1.4rem;
+      }
+      .about-intro .section-label {
+        justify-content: center;
+      }
+      .about-copy {
+        line-height: 1.75;
+        text-align: justify;
+        text-justify: inter-word;
+      }
       @media (max-width: 960px) {
         .hero-grid,
         .catalog-layout {
@@ -348,6 +361,7 @@
             </div>
           </div>
           <div class="nav-links">
+            <a href="#about">About</a>
             <a href="#catalog">Catalog</a>
             <a href="#operations">Operations</a>
             <a href="#delivery">Logistics</a>
@@ -396,6 +410,32 @@
     </header>
 
     <main>
+      <section id="about">
+        <div class="container">
+          <div class="about-intro">
+            <div class="section-label">About Gabriel Services</div>
+            <h2>A dependable operations partner built for everyday business execution.</h2>
+          </div>
+          <div class="feature-grid">
+            <article class="feature-card">
+              <h3>Who we are</h3>
+              <p class="about-copy">
+                Gabriel Services was built to give growing companies a dependable operational partner that understands the pace and pressure of daily business execution.
+              </p>
+            </article>
+            <article class="feature-card">
+              <h3>What we bring to daily operations</h3>
+              <p class="about-copy">
+                Our team brings direct experience in customer service, logistics coordination, administrative back-office support, IT triage, and day-to-day business operations.
+              </p>
+              <p class="about-copy">
+                This cross-functional foundation helps us support workflows end-to-end instead of treating each request as an isolated task.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
       <section id="blueprint">
         <div class="container">
           <div class="section-head">
