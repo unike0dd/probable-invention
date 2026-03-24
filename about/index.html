@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Gabriel Services</title>
+    <meta
+      name="description"
+      content="About Gabriel Services, who we are, and what we bring to daily operations."
+    />
+    <style>
+      :root {
+        --bg: #efede8;
+        --text: #0b1f3d;
+        --copy: #101010;
+        --max: 1024px;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+        background: var(--bg);
+        color: var(--copy);
+      }
+
+      main {
+        width: min(calc(100% - 2rem), var(--max));
+        margin: 0 auto;
+        padding: 2.25rem 0 3.5rem;
+      }
+
+      .about-intro {
+        text-align: center;
+        margin-bottom: 2.75rem;
+      }
+
+      .about-intro h1 {
+        margin: 0;
+        color: var(--text);
+        font-size: clamp(2.1rem, 4vw, 3rem);
+        line-height: 1.05;
+      }
+
+      .about-intro p {
+        margin: 0.7rem auto 0;
+        max-width: 62ch;
+        font-size: clamp(1.15rem, 2vw, 1.4rem);
+        line-height: 1.5;
+        text-wrap: balance;
+      }
+
+      .about-block {
+        max-width: 72ch;
+      }
+
+      .about-block + .about-block {
+        margin-top: 2.1rem;
+      }
+
+      h2 {
+        margin: 0 0 0.65rem;
+        color: var(--text);
+        font-size: clamp(2rem, 4vw, 3.35rem);
+        line-height: 0.95;
+      }
+
+      .about-block p {
+        margin: 0;
+        font-size: clamp(1.05rem, 2vw, 1.3rem);
+        line-height: 1.5;
+        text-align: left;
+        word-spacing: normal;
+        letter-spacing: normal;
+      }
+
+      .about-block p + p {
+        margin-top: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header class="about-intro">
+        <h1>About Gabriel Services</h1>
+        <p>
+          Dependable operational support for growing companies that need daily execution done right.
+        </p>
+      </header>
+
+      <section class="about-block" aria-labelledby="who-we-are">
+        <h2 id="who-we-are">Who we are</h2>
+        <p>
+          Gabriel Services was built to give growing companies a dependable operational partner that
+          understands the pace and pressure of daily business execution.
+        </p>
+      </section>
+
+      <section class="about-block" aria-labelledby="daily-operations">
+        <h2 id="daily-operations">What we bring to daily operations</h2>
+        <p>
+          Our team brings direct experience in customer service, logistics coordination,
+          administrative back-office support, IT triage, and day-to-day business operations.
+        </p>
+        <p>
+          This cross-functional foundation helps us support workflows end-to-end instead of
+          treating each request as an isolated task.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>
